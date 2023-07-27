@@ -10,19 +10,15 @@ int main()
     int N, M;
     vector<string>::iterator iter;
 
-    // Group의 이름을 담을 변수
     string gName;
 
-    // Group : Member vector 형태의 map
     map<string, vector<string>> group;
 
-    // member 이름 : Group 이름 형태의 map
     map<string, string> member;
 
     cin >> N;
     cin >> M;
 
-    // Group, Member의 이름을 키로 하는 map을 만드는 과정
     for (int i = 0; i < N; i++)
     {
         int num;
@@ -40,7 +36,6 @@ int main()
         group.insert(make_pair(gName, mem));
     }
 
-    // 문제 타입(그룹의 이름이 주어졌는지, 멤버의 이름이 주어졌는지)에 따라 분리해서 출력
     for (int i = 0; i < M; i++)
     {
         string p;
