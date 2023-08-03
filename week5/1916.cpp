@@ -1,43 +1,47 @@
-#include <iostream>
-#include <algorithm>
+#include <stdio.h>
+#include <queue>
 #include <vector>
+#define INF 987654321
 using namespace std;
-int ret;
-int n, m;
-vector<int> v[104];
-bool vst[104];
-
-void dfs(int k)
+ 
+int main()
 {
-    if (k > n)
-        return;
-    vst[k] = 1;
-    for (auto e : v[k])
+    int N, M, x, y, cost;
+    vector<pair<int, int>> adj[1001];
+ 
+    scanf("%d %d", &N, &M);
+    for (int i = 0; i < M; i++)
     {
-        if (!vst[e])
+        scanf("%d %d %d", &x, &y, &cost);
+        adj[x].push_back({y, cost});
+    }
+    scanf("%d %d", &x, &y);
+
+    vector<int> dist(N + 1, INF);
+    priority_queue<pair<int, int>> pq;
+
+    dist[x] = 0;
+    pq.push({0, x});
+    while (!pq.empty())
+    {
+        int cost = pq.top().first * -1;
+        int here = pq.top().second;
+        pq.pop();
+        if (dist[here] < cost)
+            continue;
+        int size = adj[here].size();
+        for (int i = 0; i < size; i++)
         {
-            ret++;
-            dfs(e);
+            int there = adj[here][i].first;
+            int nextDist = cost + adj[here][i].second;
+ 
+            if (dist[there] > nextDist)
+            {
+                dist[there] = nextDist;
+                pq.push({nextDist * -1, there});
+            }
         }
     }
-    return;
-}
-
-int main(void)
-{
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    cin >> n;
-    cin >> m;
-    for (int i = 0; i < m; i++)
-    {
-        int a, b;
-        cin >> a >> b;
-        v[a].push_back(b);
-        v[b].push_back(a);
-    }
-    dfs(1);
-    cout << ret;
-    return 0;
+    printf("%d\n", dist[y]);
+    return (0);
 }
